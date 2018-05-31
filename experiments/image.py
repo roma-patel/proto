@@ -5,10 +5,11 @@ from scipy import ndimage, misc
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 from sklearn.metrics.pairwise import cosine_similarity as cos_sim
+#from scikit-image.transform import rescale, resize, downscale_local_mean
 import yaml, json, re
 from sklearn.decomposition import PCA
-
-size = 1111;
+from PIL import Image as Im
+size = 256;
 
 class Image:
     def __init__(self, path):
@@ -20,10 +21,16 @@ class Image:
 
     def get_pixels(self):
         self.pixels = ndimage.imread(self.path)
+        self.pixels = resize(self.pixels, (256, 256))
+        #img = Im.open(self.path); img = img.resize((256, 256))
+        #self.pixels = np.array(img.getdata())
         return self.pixels
 
     def get_pixel_features(self):
-        self.pixel_features = np.array([[0 if item == 255 else 1 for item in row] for row in self.pixels])
+        #self.pixels = ndimage.imread(self.path)
+        img = Im.open(self.path); img = img.resize((256, 256))
+        self.pixel_features = np.array(img.getdata())
+        self.pixel_features = np.array([[0 if item == 255 else 1 for item in row] for row in self.pixel_features])
         return self.pixel_features
 
     def get_label(self):
@@ -39,7 +46,7 @@ class Image:
 
         
 if __name__ == '__main__':
-    path = '/Users/romapatel/Desktop/sketches_png/'
+    path = '/Users/romapatel/Documents/proto/data/tu-berlin/sketches_png/'
     categories = os.listdir(path)
     for category in sorted(categories)[:2]:
         if 'pixel' in category or '.DS' in category: continue
@@ -47,9 +54,13 @@ if __name__ == '__main__':
         for filename in files[:2]:
             if '.DS' in filename: continue
             a = Image(path + category + '/' + filename)
+            for row in a.get_pixels():
+                print row
+            for row in a.get_pixel_features():
+                print row
             plt.imshow(a.get_pixels(), cmap='gray')
             plt.show()
 
-            plt.imshow(a.get_pixel_features())
-            plt.show()
-            plt.savefig('/Users/romapatel/Desktop/a.png')
+            #plt.imshow(a.get_pixel_features())
+            #plt.show()
+            #plt.savefig('/Users/romapatel/Desktop/a.png')
