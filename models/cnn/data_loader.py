@@ -30,7 +30,7 @@ class SketchData(Dataset):
         self.target_transform = target_transform
         self.train = train
         self.categories = [name for name in os.listdir(path + 'data/sketchy/categories/') if '.DS' not in name]
-        self.categories = self.categories[:10]
+        self.categories = self.categories
 
 
 
@@ -83,7 +83,7 @@ class SketchData(Dataset):
             for line in lines:
                 #img = ndimage.imread(path + 'data/sketchy/figs/' + line.strip())
                 img = Image.open(path + 'data/sketchy/figs/' + line.strip())
-                img = img.resize((64, 64))
+                #img = img.resize((64, 64))
 
                 #img = color.rgb2gray(img)
                 labels.append(class_to_idx[category])

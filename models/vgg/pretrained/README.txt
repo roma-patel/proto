@@ -7,7 +7,7 @@ MODEL_lin.pkl and MODEL_nn.pkl are the linear and neuralnet models stored in pkl
 
 
 DEPENDENCIES: 
-
+word_
 scikit-learn neural network Python library (the models are learned with this library) 
 
 

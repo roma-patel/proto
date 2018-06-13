@@ -12,7 +12,7 @@ from PIL import Image as Im
 size = 256;
 
 class Image:
-    def __init__(self, path):
+    def __init__(self, path, gray=True):
         self.path = path
         self.pixels = []
         self.pixel_features = []
@@ -20,10 +20,14 @@ class Image:
         self.label_features = []
 
     def get_pixels(self):
-        self.pixels = ndimage.imread(self.path)
-        self.pixels = resize(self.pixels, (256, 256))
+        self.pixels = np.array(Im.open(self.path)).astype(np.uint8)
+        
+ #       self.pixels = ndimage.imread(self.path)
+        '''
+        self.pixels = resize(self.pixels, (size, size))
         #img = Im.open(self.path); img = img.resize((256, 256))
         #self.pixels = np.array(img.getdata())
+        '''
         return self.pixels
 
     def get_pixel_features(self):
